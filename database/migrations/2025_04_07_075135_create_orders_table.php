@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('buyer_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->decimal('total_price', 8, 2);
             $table->enum('shipping_status', ['pending', 'shipped'])->default('pending'); //
-            $table->enum('payment_status', ['unpaid', 'paid'])->default('pending'); //
+            $table->enum('payment_status', ['unpaid', 'paid'])->default('unpaid'); //
             $table->string('shipping_address');
             $table->enum('payment_method', ['credit card', 'paypal', 'bank transfer', 'cash on delivery', 'e-wallet transfer'])->default('credit card'); //
 

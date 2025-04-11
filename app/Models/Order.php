@@ -16,7 +16,7 @@ class Order extends Model
         'shipping_status',
         'payment_status',
         'shipping_address',
-        'payment_method'
+        'payment_method',
     ];
 
     public function buyer()
