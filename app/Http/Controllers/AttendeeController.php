@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Attendee;
 
 class AttendeeController extends Controller
 {
     //
 
     public function index() {
-        $attendees = Attendee::all();
+        $attendees = Attendee::all()->load('event')->load('user');
+
 
         return response()->json([
             'data' => $attendees,
@@ -19,7 +21,7 @@ class AttendeeController extends Controller
     }
 
     public function show($id) {
-        $attendee = Attendee::find($id);
+        $attendee = Attendee::find($id)->load('event')->load('user');
 
         if (!$attendee) {
             return response()->json([

@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Events;
+use App\Models\Event;
 
 class EventController extends Controller
 {
     //
 
     public function index() {
-        $events = Events::all();
+        $events = Event::all()->load('venue', 'attendees', 'organizer');
 
         return response()->json([
             'data' => $events,
@@ -20,7 +20,7 @@ class EventController extends Controller
     }
 
     public function show($id) {
-        $event = Events::find($id);
+        $event = Event::find($id)->load('venue', 'attendees', 'organizer');
 
         if (!$event) {
             return response()->json([
@@ -38,7 +38,7 @@ class EventController extends Controller
     }
 
     public function store(Request $request) {
-        $event = Events::create($request->all());
+        $event = Event::create($request->all());
 
         return response()->json([
             'data' => $event,
@@ -48,7 +48,7 @@ class EventController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $event = Events::find($id);
+        $event = Event::find($id)->load('venue', 'attendees', 'organizer');
 
         if (!$event) {
             return response()->json([
@@ -67,7 +67,7 @@ class EventController extends Controller
     }
 
     public function destroy($id) {
-        $event = Events::find($id);
+        $event = Event::find($id);
 
         if (!$event) {
             return response()->json([
