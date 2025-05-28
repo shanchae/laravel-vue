@@ -17,6 +17,17 @@ class Api {
             throw error;
         }
     }
+
+    async createEvent(eventData) {
+        try {
+            const response = await axios.post('/events', eventData);
+            return response.data;
+        } catch (error) {
+            console.error('Error creating event:', error);
+            throw error;
+        }
+    }
+    
 }
 
 export default new Api();
