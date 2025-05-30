@@ -3,8 +3,9 @@ import { onMounted, ref } from 'vue';
 import api from '../../api';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
-import Message from 'primevue/message';
 import Toast from 'primevue/toast'
+import DatePicker from 'primevue/datepicker';
+import Textarea from 'primevue/textarea';
 import { useToast } from 'primevue/usetoast';
 
 const message = ref('');
@@ -28,12 +29,6 @@ onMounted(async () => {
 
 const toast = useToast();
 
-const initialValues = ref({
-    username: '',
-    firstName: '',
-    lastName: ''
-});
-
 const resolver = ({ values }) => {
     const errors = {};
 
@@ -54,12 +49,33 @@ const resolver = ({ values }) => {
     };
 };
 
-const onFormSubmit = ({ valid }) => {
-    if (valid) {
-        toast.add({ severity: 'success', summary: 'Success', detail: 'Form submitted successfully!' });
-        console.log('Form submitted:', initialValues.value);
-    } else {
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Please fill in all required fields.' });
+const eventForm = ref({
+    event: '',
+    description: '',
+    venue: '',
+    start_time: null,
+    end_time: null
+});
+
+const onFormSubmit = async () => {
+    try {
+        const formData = {
+            name: eventForm.value.event,
+            description: eventForm.value.description,
+            venue_id: eventForm.value.venue,
+            organizer_id: 1, // Assuming a static organizer ID for this example
+            start_time: eventForm.value.start_time,
+            end_time: eventForm.value.end_time,
+            banner_img: 'test' // Assuming no banner image for this example
+        };
+
+        const response = await api.createEvent(formData);
+        console.log('Form submitted successfully:', response);
+
+
+    } catch (error) {
+        console.error('Error during form submission:', error);
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Form submission failed', life: 3000 });
     }
 }
 
@@ -71,27 +87,28 @@ const onFormSubmit = ({ valid }) => {
         <h1>{{ message }}</h1>
         <p>This is a test page.</p>
     </div>
-<Toast />
+    <Toast />
     <div>
+
         <form @submit.prevent="onFormSubmit" class="flex flex-col gap-4 w-full sm:w-56">
             <div class="flex flex-col gap-1">
-                <InputText v-model="initialValues.username" name="username" type="text" placeholder="Username" />
-                <Message v-if="!initialValues.username" severity="error" size="small" variant="simple">
-                    Username is required.
-                </Message>
+                <InputText v-model="eventForm.event" name="event" type="text" placeholder="Name of Event" />
+                <!-- <Message v-if="!initialValues.username" severity="error" size="small" variant="simple">
+                </Message> -->
             </div>
             <div class="flex flex-col gap-1">
-                <InputText v-model="initialValues.firstName" name="firstName" type="text" placeholder="First Name" />
-                <Message v-if="!initialValues.firstName" severity="error" size="small" variant="simple">
-                    First name is required.
-                </Message>
+                <Textarea v-model="eventForm.description" placeholder="Description of Event" />
             </div>
             <div class="flex flex-col gap-1">
-                <InputText v-model="initialValues.lastName" name="lastName" type="text" placeholder="Last Name" />
-                <Message v-if="!initialValues.lastName" severity="error" size="small" variant="simple">
-                    Last name is required.
-                </Message>
+                <InputText v-model="eventForm.venue" name="venue" type="number" placeholder="Venue" />
             </div>
+            <div class="flex flex-col gap-1">
+                <DatePicker v-model="eventForm.start_time" name="start_time" placeholder="Start Time" />
+            </div>
+            <div class="flex flex-col gap-1">
+                <DatePicker v-model="eventForm.end_time" name="end_time" placeholder="End Time" />
+            </div>
+            
             <Button type="submit" severity="secondary" label="Submit" />
         </form>
     </div>
