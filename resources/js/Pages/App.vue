@@ -1,5 +1,10 @@
+<script setup>
+import MainLayout from '@/Layouts/MainLayout.vue';
+
+</script>
+
 <template>
-    <h2>
-        Hello, World! 🤘
-    </h2>
+    <MainLayout>
+        Hello, this is the main content of the app!
+    </MainLayout>
 </template>
