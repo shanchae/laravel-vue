@@ -14,6 +14,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                bebas: ['bebas neue', ...defaultTheme.fontFamily.sans],
             },
         },
     },

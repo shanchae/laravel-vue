@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'bebas neue';
+    src: url('../assets/fonts/BebasNeue-Regular.woff2') format('woff2'),
+}
+
+

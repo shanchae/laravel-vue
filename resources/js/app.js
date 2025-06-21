@@ -34,6 +34,7 @@ createInertiaApp({
                         prefix: "p",
                         darkModeSelector: ".p-dark",
                         cssLayer: false,
+    
                     },
                 },
             })
